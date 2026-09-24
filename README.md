@@ -135,3 +135,7 @@ comments cite them by their review tags:
 
 Also: **r1f4** the serving component is named (`apps/host`, zero domain
 logic, zero state).
+
+## License
+
+[MIT](LICENSE)

@@ -1,6 +1,7 @@
 {
   "name": "loupe-framework",
   "private": true,
+  "license": "MIT",
   "type": "module",
   "packageManager": "pnpm@10.28.2",
   "engines": {
