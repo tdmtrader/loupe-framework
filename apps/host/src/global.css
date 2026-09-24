@@ -1,0 +1,11 @@
+/* Keep viewport sizing independent of default body margins and box padding.
+   Host resets live here, outside the generated token themes. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}

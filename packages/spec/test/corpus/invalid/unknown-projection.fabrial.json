@@ -1,0 +1,9 @@
+{
+  "loupe": 1, "fabrial": "test/unknown-projection", "version": 1,
+  "catalog": { "name": "mini", "version": "1.2.3" },
+  "app": { "name": "mock", "projection": "no-such-projection" },
+  "root": "screen",
+  "elements": {
+    "screen": { "type": "Stack" }
+  }
+}

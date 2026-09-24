@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "loupe:verb-decl",
+  "title": "loupe verb declaration",
+  "type": "object",
+  "required": [
+    "name",
+    "params"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "params": {
+      "$comment": "A JSON Schema (draft 2020-12) for the verb params object.",
+      "type": [
+        "object",
+        "boolean"
+      ]
+    },
+    "optimistic": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "op",
+          "path"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "op": {
+            "enum": [
+              "add",
+              "remove",
+              "replace",
+              "move",
+              "copy",
+              "test"
+            ]
+          },
+          "path": {
+            "type": "string"
+          },
+          "value": {},
+          "from": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "stream"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "stream": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

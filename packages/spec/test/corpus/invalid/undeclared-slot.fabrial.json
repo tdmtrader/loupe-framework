@@ -1,0 +1,11 @@
+{
+  "loupe": 1, "fabrial": "test/undeclared-slot", "version": 1,
+  "catalog": { "name": "mini", "version": "1.2.3" },
+  "app": { "name": "mock", "projection": "review" },
+  "root": "screen",
+  "elements": {
+    "screen": { "type": "Stack", "children": ["l"] },
+    "l": { "type": "List", "props": {}, "slots": { "sidebar": ["t"] } },
+    "t": { "type": "Text", "props": { "text": "hi" } }
+  }
+}

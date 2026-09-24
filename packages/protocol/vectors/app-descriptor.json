@@ -1,0 +1,41 @@
+{
+  "protocol": 1,
+  "app": { "name": "fixture", "version": "0.1.0" },
+  "projections": [
+    { "name": "board" },
+    { "name": "route", "params": ["id"] },
+    { "name": "review", "params": ["ticketId", "round"] }
+  ],
+  "verbs": [
+    {
+      "name": "keepIt",
+      "description": "keep the current finding",
+      "params": {
+        "type": "object",
+        "required": ["findingId"],
+        "additionalProperties": false,
+        "properties": { "findingId": { "type": "string" } }
+      },
+      "optimistic": [
+        { "op": "replace", "path": "/triage/optimisticKept", "value": "${params.findingId}" }
+      ],
+      "records": [{ "stream": "triage.jsonl" }]
+    },
+    {
+      "name": "finding.decide",
+      "description": "record a verdict for a finding",
+      "params": {
+        "type": "object",
+        "required": ["finding_id", "status"],
+        "additionalProperties": false,
+        "properties": {
+          "finding_id": { "type": "string" },
+          "status": { "enum": ["fix", "fix_with_revision", "accept", "needs_info", "dismiss"] },
+          "note": { "type": "string" }
+        }
+      },
+      "records": [{ "stream": "dispositions.jsonl" }]
+    }
+  ],
+  "capabilities": { "ws": true }
+}

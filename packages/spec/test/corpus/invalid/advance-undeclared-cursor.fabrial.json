@@ -1,0 +1,13 @@
+{
+  "loupe": 1, "fabrial": "test/advance-undeclared-cursor", "version": 1,
+  "catalog": { "name": "mini", "version": "1.2.3" },
+  "app": { "name": "mock", "projection": "review" },
+  "ui": { "cursorId": null },
+  "root": "screen",
+  "elements": {
+    "screen": { "type": "Stack", "children": ["r"] },
+    "r": { "type": "Row", "on": { "press": { "advance": {
+      "list": "/findings", "key": "id", "cursor": "/nope", "dir": "next",
+      "filter": { "$ui": "/alsoNope", "eq": null } } } } }
+  }
+}

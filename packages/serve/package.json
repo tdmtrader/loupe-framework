@@ -1,0 +1,21 @@
+{
+  "name": "@loupe/serve",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "test": "vitest run --config ../../vitest.workspace.ts --project serve"
+  },
+  "dependencies": {
+    "@loupe/protocol": "workspace:*",
+    "ws": "^8.20.0",
+    "zod": "^4.1.5"
+  },
+  "devDependencies": {
+    "@types/ws": "^8.18.0"
+  }
+}

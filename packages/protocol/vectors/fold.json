@@ -1,0 +1,19 @@
+{
+  "comment": "foldLatest conformance: latest-wins by at, ties broken by lexicographic actor (sort ascending by (at, actor); last wins). Input is deliberately out of order — the fold must be order-independent.",
+  "keys": { "id": "finding_id", "at": "at", "actor": "actor" },
+  "records": [
+    { "finding_id": "r1f2", "status": "accept", "note": null, "actor": "ada", "at": "2026-08-29T05:10:00Z" },
+    { "finding_id": "r1f7", "status": "needs_info", "note": null, "actor": "ada", "at": "2026-08-28T01:00:00Z" },
+    { "finding_id": "r1f2", "status": "fix", "note": null, "actor": "ada", "at": "2026-08-29T04:33:42Z" },
+    { "finding_id": "r1f6", "status": "dismiss", "note": "tie on at; actor breaks it", "actor": "aerith", "at": "2026-08-29T05:00:00Z" },
+    { "finding_id": "r1f6", "status": "fix", "note": "lexicographically later actor wins", "actor": "zanuff", "at": "2026-08-29T05:00:00Z" },
+    { "finding_id": "r1f5", "status": "fix", "note": null, "actor": "ada", "at": "2026-08-29T04:40:00Z" },
+    { "finding_id": "r1f5", "status": "undecided", "note": null, "actor": "ada", "at": "2026-08-29T04:41:00Z" }
+  ],
+  "expected": {
+    "r1f2": { "finding_id": "r1f2", "status": "accept", "note": null, "actor": "ada", "at": "2026-08-29T05:10:00Z" },
+    "r1f5": { "finding_id": "r1f5", "status": "undecided", "note": null, "actor": "ada", "at": "2026-08-29T04:41:00Z" },
+    "r1f6": { "finding_id": "r1f6", "status": "fix", "note": "lexicographically later actor wins", "actor": "zanuff", "at": "2026-08-29T05:00:00Z" },
+    "r1f7": { "finding_id": "r1f7", "status": "needs_info", "note": null, "actor": "ada", "at": "2026-08-28T01:00:00Z" }
+  }
+}

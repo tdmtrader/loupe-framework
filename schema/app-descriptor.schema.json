@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "loupe:app-descriptor",
+  "title": "loupe app descriptor (GET /loupe/app)",
+  "type": "object",
+  "required": [
+    "protocol",
+    "app",
+    "projections",
+    "verbs",
+    "capabilities"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "protocol": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "app": {
+      "type": "object",
+      "required": [
+        "name",
+        "version"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      }
+    },
+    "projections": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "params": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "verbs": {
+      "type": "array",
+      "items": {
+        "$ref": "loupe:verb-decl"
+      }
+    },
+    "capabilities": {
+      "type": "object",
+      "required": [
+        "ws"
+      ],
+      "properties": {
+        "ws": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

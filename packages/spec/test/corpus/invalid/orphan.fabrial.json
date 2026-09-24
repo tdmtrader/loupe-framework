@@ -1,0 +1,10 @@
+{
+  "loupe": 1, "fabrial": "test/orphan", "version": 1,
+  "catalog": { "name": "mini", "version": "1.2.3" },
+  "app": { "name": "mock", "projection": "review" },
+  "root": "screen",
+  "elements": {
+    "screen": { "type": "Stack" },
+    "stray": { "type": "Text", "props": { "text": "unreachable" } }
+  }
+}

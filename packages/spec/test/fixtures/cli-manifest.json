@@ -1,0 +1,21 @@
+[
+  {
+    "name": "keepIt",
+    "params": {
+      "type": "object",
+      "properties": { "findingId": { "type": "string" } },
+      "required": ["findingId"],
+      "additionalProperties": false
+    }
+  },
+  { "name": "undo", "params": { "type": "object", "properties": {}, "additionalProperties": false } },
+  {
+    "name": "release",
+    "params": {
+      "type": "object",
+      "properties": { "ticketId": { "type": "string" }, "note": { "type": ["string", "null"] } },
+      "required": ["ticketId"],
+      "additionalProperties": false
+    }
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "name": "loupe-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b",
+    "dev": "tsx src/main.ts",
+    "start": "tsx src/main.ts",
+    "test": "vitest run --config ../../vitest.workspace.ts --project loupe-mcp"
+  },
+  "dependencies": {
+    "@loupe/client": "workspace:*",
+    "@loupe/protocol": "workspace:*",
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^4.1.5"
+  },
+  "devDependencies": {
+    "@loupe/serve": "workspace:*",
+    "loupe-grill": "workspace:*",
+    "tsx": "^4.21.0"
+  }
+}

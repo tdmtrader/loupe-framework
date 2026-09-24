@@ -1,0 +1,29 @@
+{
+  "name": "@loupe/catalog",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./react": "./src/react/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "test": "vitest run --config ../../vitest.workspace.ts --project catalog",
+    "styleguide": "vite styleguide"
+  },
+  "dependencies": {
+    "@loupe/spec": "workspace:*",
+    "@loupe/tokens": "workspace:*",
+    "react": "^19.2.0",
+    "zod": "^4.1.5"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.0.1",
+    "react-dom": "^19.2.0",
+    "vite": "^8.0.1",
+    "vitest-browser-react": "^2.1.0"
+  }
+}

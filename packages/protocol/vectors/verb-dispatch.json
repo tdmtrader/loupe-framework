@@ -1,0 +1,24 @@
+{
+  "verb": "finding.decide",
+  "request": { "params": { "finding_id": "r1f6", "status": "fix" } },
+  "ok": {
+    "ok": true,
+    "seq": 42,
+    "records": [
+      {
+        "stream": "dispositions.jsonl",
+        "record": {
+          "finding_id": "r1f6",
+          "status": "fix",
+          "note": null,
+          "actor": "ada",
+          "at": "2026-08-28T21:04:11Z"
+        }
+      }
+    ]
+  },
+  "error": {
+    "ok": false,
+    "error": { "code": "unknown_finding", "message": "no finding with id r9f9" }
+  }
+}

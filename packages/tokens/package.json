@@ -1,0 +1,19 @@
+{
+  "name": "@loupe/tokens",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./theme-classic.css": "./theme-classic.css",
+    "./theme-modern.css": "./theme-modern.css"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "generate": "tsx src/generate-css.ts",
+    "test": "vitest run --config ../../vitest.workspace.ts --project tokens"
+  },
+  "devDependencies": {
+    "tsx": "^4.21.0"
+  }
+}

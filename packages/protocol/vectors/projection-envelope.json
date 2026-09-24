@@ -1,0 +1,35 @@
+{
+  "projection": "review",
+  "seq": 41,
+  "state": {
+    "ticket": { "id": "PAY-2112", "title": "Refund status never leaves pending", "round": 2 },
+    "triage": {
+      "pendingCount": 3,
+      "total": 5,
+      "keptCount": 2,
+      "droppedCount": 0,
+      "settledCount": 2,
+      "statusNote": "3 findings still untriaged",
+      "statusTone": "wait",
+      "dropReasons": [
+        { "reason": "trivial", "label": "trivial", "key": "1" },
+        { "reason": "wrong", "label": "wrong", "key": "2" },
+        { "reason": "already_known", "label": "already known", "key": "3" }
+      ]
+    },
+    "findings": [
+      {
+        "id": "f1",
+        "sev": "blocking",
+        "mine": false,
+        "commit": "e408a6d",
+        "file": "settle/retry.go",
+        "lines": "233-239",
+        "body": "The retry swallows the stale-transition error and reports success.",
+        "decision": null,
+        "resolution": null,
+        "phase": "undecided"
+      }
+    ]
+  }
+}

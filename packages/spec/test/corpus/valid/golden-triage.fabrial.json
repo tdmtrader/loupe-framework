@@ -1,0 +1,254 @@
+{
+  "loupe": 1,
+  "fabrial": "test/golden-triage",
+  "version": 1,
+  "title": "golden fabrial exercising the whole grammar",
+  "catalog": {
+    "name": "mini",
+    "version": "1.2.0"
+  },
+  "app": {
+    "name": "mock",
+    "projection": "review"
+  },
+  "ui": {
+    "cursorId": null,
+    "dropPicking": false,
+    "draft": null
+  },
+  "root": "screen",
+  "elements": {
+    "screen": {
+      "type": "Stack",
+      "props": {
+        "gap": 8
+      },
+      "children": [
+        "headline",
+        "finding-row",
+        "list",
+        "note",
+        "hotkeys"
+      ]
+    },
+    "headline": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$template": "${/triage/keptCount} kept · cursor ${ui:/cursorId}"
+        },
+        "tier": "dim"
+      }
+    },
+    "finding-row": {
+      "type": "Row",
+      "repeat": {
+        "path": "/findings",
+        "key": "id",
+        "filter": {
+          "$bind": "decision",
+          "eq": null
+        }
+      },
+      "props": {
+        "accent": {
+          "$cond": {
+            "$ui": "/cursorId",
+            "eq": {
+              "$bind": "id"
+            }
+          },
+          "$then": "agent",
+          "$else": "border"
+        }
+      },
+      "visible": {
+        "$bind": "/triage/pendingCount",
+        "gt": 0
+      },
+      "on": {
+        "press": {
+          "ui": {
+            "/cursorId": {
+              "$bind": "id"
+            },
+            "/dropPicking": false
+          }
+        }
+      },
+      "children": [
+        "f-label",
+        "keep-btn"
+      ]
+    },
+    "f-label": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$bind": "sev"
+        }
+      }
+    },
+    "keep-btn": {
+      "type": "Button",
+      "props": {
+        "label": "keep",
+        "variant": "primary"
+      },
+      "on": {
+        "press": [
+          {
+            "verb": "keepIt",
+            "params": {
+              "findingId": {
+                "$bind": "id"
+              }
+            },
+            "pending": {
+              "label": "keeping…",
+              "disable": true
+            },
+            "done": {
+              "ui": {
+                "/dropPicking": false
+              }
+            }
+          }
+        ]
+      }
+    },
+    "list": {
+      "type": "List",
+      "props": {},
+      "slots": {
+        "row": [
+          "row-line"
+        ],
+        "footer": [
+          "footer-btn"
+        ]
+      }
+    },
+    "row-line": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$bind": "thing/id"
+        }
+      }
+    },
+    "footer-btn": {
+      "type": "Button",
+      "props": {
+        "label": "release",
+        "variant": "ghost"
+      },
+      "on": {
+        "press": {
+          "verb": "release",
+          "params": {
+            "ticketId": "PAY-1",
+            "note": null
+          },
+          "confirm": {
+            "title": "release",
+            "message": {
+              "$template": "really ${/triage/total}?"
+            }
+          }
+        }
+      }
+    },
+    "note": {
+      "type": "Note",
+      "props": {
+        "bindUi": "/draft",
+        "placeholder": "say why"
+      }
+    },
+    "hotkeys": {
+      "type": "Hotkeys",
+      "context": {
+        "list": "/findings",
+        "key": "id",
+        "at": "/cursorId"
+      },
+      "props": {
+        "keys": [
+          {
+            "key": "arrowdown"
+          },
+          {
+            "key": "arrowup"
+          },
+          {
+            "key": "k",
+            "when": {
+              "$bind": "decision",
+              "eq": null
+            }
+          },
+          {
+            "key": "u",
+            "when": {
+              "$ui": "/dropPicking",
+              "eq": false
+            }
+          }
+        ]
+      },
+      "on": {
+        "arrowdown": {
+          "advance": {
+            "list": "/findings",
+            "key": "id",
+            "cursor": "/cursorId",
+            "dir": "next",
+            "filter": {
+              "$bind": "decision",
+              "eq": null
+            }
+          }
+        },
+        "arrowup": {
+          "advance": {
+            "list": "/findings",
+            "key": "id",
+            "cursor": "/cursorId",
+            "dir": "prev",
+            "filter": {
+              "$bind": "decision",
+              "eq": null
+            }
+          }
+        },
+        "k": [
+          {
+            "verb": "keepIt",
+            "params": {
+              "findingId": {
+                "$bind": "id"
+              }
+            }
+          },
+          {
+            "advance": {
+              "list": "/findings",
+              "key": "id",
+              "cursor": "/cursorId",
+              "dir": "next",
+              "filter": {
+                "$bind": "decision",
+                "eq": null
+              }
+            }
+          }
+        ],
+        "u": {
+          "verb": "undo",
+          "params": {}
+        }
+      }
+    }
+  }
+}

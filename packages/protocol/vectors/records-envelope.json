@@ -1,0 +1,33 @@
+{
+  "ok": {
+    "stream": "triage.jsonl",
+    "seq": 44,
+    "records": [
+      {
+        "seq": 42,
+        "record": {
+          "findingId": "f1",
+          "decision": "kept",
+          "actor": "fixture",
+          "at": "2026-09-04T21:04:11Z"
+        }
+      },
+      {
+        "seq": 44,
+        "record": {
+          "findingId": "f2",
+          "decision": "dropped",
+          "reason": "trivial",
+          "actor": "fixture",
+          "at": "2026-09-04T21:04:19Z"
+        }
+      }
+    ]
+  },
+  "gone": {
+    "stream": "triage.jsonl",
+    "seq": 512,
+    "records": [],
+    "note": "records after seq 3 on triage.jsonl are no longer held: the ring keeps 256 and its oldest is seq 260; re-snapshot, then poll from seq 512"
+  }
+}

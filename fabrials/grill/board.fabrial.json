@@ -1,0 +1,851 @@
+{
+  "loupe": 1,
+  "fabrial": "grill/board",
+  "version": 1,
+  "title": "answering the agent's grilling",
+  "catalog": {
+    "name": "loupe-std",
+    "version": "2.0.0"
+  },
+  "app": {
+    "name": "grill",
+    "projection": "board"
+  },
+  "ui": {
+    "cursorId": null,
+    "draft": ""
+  },
+  "root": "screen",
+  "elements": {
+    "screen": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "grow": true
+      },
+      "children": [
+        "header",
+        "grid",
+        "footer",
+        "hotkeys"
+      ]
+    },
+    "header": {
+      "type": "Band",
+      "props": {
+        "pad": [
+          10,
+          16
+        ]
+      },
+      "children": [
+        "header-row"
+      ]
+    },
+    "header-row": {
+      "type": "Row",
+      "props": {
+        "gap": 10,
+        "align": "baseline"
+      },
+      "children": [
+        "h-label",
+        "h-summary",
+        "h-spacer",
+        "h-rounds"
+      ]
+    },
+    "h-label": {
+      "type": "MicroLabel",
+      "props": {
+        "text": "grilling",
+        "tone": "agent"
+      }
+    },
+    "h-summary": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$bind": "/summary"
+        },
+        "tier": "primary"
+      }
+    },
+    "h-spacer": {
+      "type": "Spacer",
+      "props": {}
+    },
+    "h-rounds": {
+      "type": "Row",
+      "props": {
+        "gap": 6,
+        "align": "center"
+      },
+      "children": [
+        "h-round"
+      ]
+    },
+    "h-round": {
+      "type": "Badge",
+      "repeat": {
+        "path": "/rounds",
+        "key": "n"
+      },
+      "props": {
+        "label": {
+          "$template": "${label} · ${phrase}"
+        },
+        "tone": {
+          "$cond": {
+            "$bind": "openCount",
+            "eq": 0
+          },
+          "$then": "done",
+          "$else": "agent"
+        },
+        "filled": false
+      }
+    },
+    "grid": {
+      "type": "Grid",
+      "props": {
+        "template": "360px 1fr",
+        "cellBorders": true,
+        "grow": true
+      },
+      "children": [
+        "rail",
+        "detail-scroll"
+      ]
+    },
+    "rail": {
+      "type": "SidePanel",
+      "props": {},
+      "children": [
+        "rail-head",
+        "rail-empty",
+        "row"
+      ]
+    },
+    "rail-head": {
+      "type": "Row",
+      "props": {
+        "gap": 6,
+        "align": "center",
+        "pad": [
+          9,
+          14
+        ],
+        "borders": "bottom"
+      },
+      "children": [
+        "rh-prev",
+        "rh-next",
+        "rh-spacer",
+        "rh-hint"
+      ]
+    },
+    "rh-prev": {
+      "type": "Button",
+      "props": {
+        "label": "prev",
+        "keyHint": "K",
+        "variant": "ghost"
+      },
+      "on": {
+        "press": {
+          "advance": {
+            "list": "/questions",
+            "key": "id",
+            "cursor": "/cursorId",
+            "dir": "prev"
+          }
+        }
+      }
+    },
+    "rh-next": {
+      "type": "Button",
+      "props": {
+        "label": "next",
+        "keyHint": "J",
+        "variant": "ghost"
+      },
+      "on": {
+        "press": {
+          "advance": {
+            "list": "/questions",
+            "key": "id",
+            "cursor": "/cursorId",
+            "dir": "next"
+          }
+        }
+      }
+    },
+    "rh-spacer": {
+      "type": "Spacer",
+      "props": {}
+    },
+    "rh-hint": {
+      "type": "MicroLabel",
+      "props": {
+        "text": "j k move",
+        "tracking": "interactive",
+        "tone": "muted"
+      }
+    },
+    "rail-empty": {
+      "type": "Prose",
+      "visible": {
+        "$bind": "/questions",
+        "eq": []
+      },
+      "props": {
+        "text": "nothing to answer — the agent has not asked anything yet",
+        "tier": "muted"
+      }
+    },
+    "row": {
+      "type": "Stack",
+      "repeat": {
+        "path": "/questions",
+        "key": "id"
+      },
+      "props": {
+        "direction": "column"
+      },
+      "children": [
+        "row-round-head",
+        "row-card"
+      ]
+    },
+    "row-round-head": {
+      "type": "InsetHeader",
+      "visible": {
+        "$bind": "roundFirst",
+        "eq": true
+      },
+      "props": {
+        "label": {
+          "$bind": "roundLabel"
+        },
+        "right": {
+          "$bind": "roundPhrase"
+        }
+      }
+    },
+    "row-card": {
+      "type": "Row",
+      "props": {
+        "gap": 8,
+        "align": "center",
+        "pad": [
+          10,
+          12
+        ],
+        "accentWidth": 3,
+        "accent": {
+          "$cond": {
+            "$ui": "/cursorId",
+            "eq": {
+              "$bind": "id"
+            }
+          },
+          "$then": "agent",
+          "$else": {
+            "$cond": {
+              "$bind": "phase",
+              "eq": "answered"
+            },
+            "$then": "doneDeep",
+            "$else": "border"
+          }
+        },
+        "bg": {
+          "$cond": {
+            "$ui": "/cursorId",
+            "eq": {
+              "$bind": "id"
+            }
+          },
+          "$then": "selectedViolet",
+          "$else": "none"
+        },
+        "scrollIntoView": {
+          "$ui": "/cursorId",
+          "eq": {
+            "$bind": "id"
+          }
+        }
+      },
+      "on": {
+        "press": {
+          "ui": {
+            "/cursorId": {
+              "$bind": "id"
+            }
+          }
+        }
+      },
+      "children": [
+        "rc-index",
+        "rc-title",
+        "rc-spacer",
+        "rc-phase"
+      ]
+    },
+    "rc-index": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$bind": "index"
+        },
+        "weight": 700
+      }
+    },
+    "rc-title": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$bind": "title"
+        },
+        "tier": "primary"
+      }
+    },
+    "rc-spacer": {
+      "type": "Spacer",
+      "props": {}
+    },
+    "rc-phase": {
+      "type": "Badge",
+      "props": {
+        "label": {
+          "$bind": "phase"
+        },
+        "tone": {
+          "$cond": {
+            "$bind": "phase",
+            "eq": "answered"
+          },
+          "$then": "done",
+          "$else": "agent"
+        },
+        "filled": {
+          "$bind": "phase",
+          "eq": "open"
+        }
+      }
+    },
+    "detail-scroll": {
+      "type": "ScrollArea",
+      "props": {
+        "axis": "y"
+      },
+      "children": [
+        "detail-panel"
+      ]
+    },
+    "detail-panel": {
+      "type": "Stack",
+      "props": {
+        "direction": "column",
+        "gap": 12,
+        "pad": [
+          14,
+          16
+        ]
+      },
+      "children": [
+        "detail"
+      ]
+    },
+    "detail": {
+      "type": "Stack",
+      "context": {
+        "list": "/questions",
+        "key": "id",
+        "at": "/cursorId"
+      },
+      "props": {
+        "direction": "column",
+        "gap": 12
+      },
+      "children": [
+        "no-cursor",
+        "detail-body"
+      ]
+    },
+    "no-cursor": {
+      "type": "Prose",
+      "visible": {
+        "$bind": "",
+        "exists": false
+      },
+      "props": {
+        "text": "select a question — what the agent asked, what it recommends, and your answer land here",
+        "tier": "muted"
+      }
+    },
+    "detail-body": {
+      "type": "Stack",
+      "visible": {
+        "$bind": "",
+        "exists": true
+      },
+      "props": {
+        "direction": "column",
+        "gap": 12
+      },
+      "children": [
+        "d-meta",
+        "d-title",
+        "d-body",
+        "d-rec",
+        "answer-box",
+        "answered-box"
+      ]
+    },
+    "d-meta": {
+      "type": "MicroLabel",
+      "props": {
+        "text": {
+          "$template": "${roundLabel} · ${index} · asked by ${askedBy}"
+        },
+        "tone": "agent"
+      }
+    },
+    "d-title": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$bind": "title"
+        },
+        "weight": 900,
+        "size": 14
+      }
+    },
+    "d-body": {
+      "type": "ProseDoc",
+      "props": {
+        "blocks": {
+          "$bind": "bodyBlocks"
+        },
+        "maxCh": 80
+      }
+    },
+    "d-rec": {
+      "type": "Panel",
+      "props": {
+        "title": "recommendation",
+        "bg": "inset"
+      },
+      "children": [
+        "d-rec-doc"
+      ]
+    },
+    "d-rec-doc": {
+      "type": "ProseDoc",
+      "props": {
+        "blocks": {
+          "$bind": "recommendationBlocks"
+        },
+        "maxCh": 80
+      }
+    },
+    "answer-box": {
+      "type": "Stack",
+      "visible": {
+        "$bind": "phase",
+        "eq": "open"
+      },
+      "props": {
+        "direction": "column",
+        "gap": 8,
+        "pad": [
+          10,
+          12
+        ],
+        "bg": "inset"
+      },
+      "children": [
+        "answer-label",
+        "option-row",
+        "rec-row",
+        "draft",
+        "note-row"
+      ]
+    },
+    "answer-label": {
+      "type": "MicroLabel",
+      "props": {
+        "text": "your answer",
+        "tone": "agent"
+      }
+    },
+    "option-row": {
+      "type": "Row",
+      "props": {
+        "gap": 8,
+        "align": "center"
+      },
+      "children": [
+        "option-btn"
+      ]
+    },
+    "option-btn": {
+      "type": "Button",
+      "repeat": {
+        "path": "options",
+        "key": "id"
+      },
+      "props": {
+        "label": {
+          "$bind": "label"
+        },
+        "variant": "ghost"
+      },
+      "on": {
+        "press": [
+          {
+            "verb": "question.answer",
+            "params": {
+              "question_id": {
+                "$ui": "/cursorId"
+              },
+              "choice": "option",
+              "note": {
+                "$ui": "/draft"
+              },
+              "option_id": {
+                "$bind": "id"
+              }
+            },
+            "done": {
+              "ui": {
+                "/draft": ""
+              }
+            }
+          },
+          {
+            "advance": {
+              "list": "/questions",
+              "key": "id",
+              "cursor": "/cursorId",
+              "dir": "next",
+              "filter": {
+                "$bind": "phase",
+                "eq": "open"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "rec-row": {
+      "type": "Row",
+      "props": {
+        "gap": 8,
+        "align": "center"
+      },
+      "children": [
+        "rec-btn"
+      ]
+    },
+    "rec-btn": {
+      "type": "Button",
+      "props": {
+        "label": "go with the recommendation",
+        "keyHint": "Y",
+        "variant": "confirm"
+      },
+      "on": {
+        "press": [
+          {
+            "verb": "question.answer",
+            "params": {
+              "question_id": {
+                "$bind": "id"
+              },
+              "choice": "recommended",
+              "note": {
+                "$ui": "/draft"
+              }
+            },
+            "done": {
+              "ui": {
+                "/draft": ""
+              }
+            }
+          },
+          {
+            "advance": {
+              "list": "/questions",
+              "key": "id",
+              "cursor": "/cursorId",
+              "dir": "next",
+              "filter": {
+                "$bind": "phase",
+                "eq": "open"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "draft": {
+      "type": "Textarea",
+      "props": {
+        "bindUi": "/draft",
+        "placeholder": "your own answer, or a note to ride along (lost on reload by design)",
+        "borderTone": "neutral",
+        "minHeight": 56
+      }
+    },
+    "note-row": {
+      "type": "Row",
+      "props": {
+        "gap": 8,
+        "align": "center"
+      },
+      "children": [
+        "note-btn"
+      ]
+    },
+    "note-btn": {
+      "type": "Button",
+      "props": {
+        "label": "answer with this note",
+        "variant": "primary",
+        "disabled": {
+          "$ui": "/draft",
+          "eq": ""
+        }
+      },
+      "on": {
+        "press": [
+          {
+            "verb": "question.answer",
+            "params": {
+              "question_id": {
+                "$bind": "id"
+              },
+              "choice": "other",
+              "note": {
+                "$ui": "/draft"
+              }
+            },
+            "done": {
+              "ui": {
+                "/draft": ""
+              }
+            }
+          },
+          {
+            "advance": {
+              "list": "/questions",
+              "key": "id",
+              "cursor": "/cursorId",
+              "dir": "next",
+              "filter": {
+                "$bind": "phase",
+                "eq": "open"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "answered-box": {
+      "type": "Stack",
+      "visible": {
+        "$bind": "phase",
+        "eq": "answered"
+      },
+      "props": {
+        "direction": "column",
+        "gap": 8,
+        "pad": [
+          10,
+          12
+        ],
+        "bg": "inset",
+        "accent": "doneDeep",
+        "accentWidth": 2
+      },
+      "children": [
+        "a-phrase",
+        "a-note",
+        "a-meta",
+        "undo-row"
+      ]
+    },
+    "a-phrase": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$bind": "answerPhrase"
+        },
+        "tier": "primary"
+      }
+    },
+    "a-note": {
+      "type": "Prose",
+      "visible": {
+        "$bind": "answerNote",
+        "neq": null
+      },
+      "props": {
+        "text": {
+          "$template": "“${answerNote}”"
+        },
+        "maxCh": 72
+      }
+    },
+    "a-meta": {
+      "type": "Text",
+      "props": {
+        "text": {
+          "$template": "${answeredBy} · ${answeredAt}"
+        },
+        "tier": "dim"
+      }
+    },
+    "undo-row": {
+      "type": "Row",
+      "props": {
+        "gap": 8
+      },
+      "children": [
+        "undo-btn"
+      ]
+    },
+    "undo-btn": {
+      "type": "Button",
+      "props": {
+        "label": "undo",
+        "keyHint": "U",
+        "variant": "ghost"
+      },
+      "on": {
+        "press": {
+          "verb": "question.retract",
+          "params": {
+            "question_id": {
+              "$bind": "id"
+            }
+          }
+        }
+      }
+    },
+    "footer": {
+      "type": "StickyFooter",
+      "props": {
+        "note": {
+          "$bind": "/summary"
+        },
+        "noteTone": "muted"
+      },
+      "slots": {
+        "actions": [
+          "footer-keys"
+        ]
+      }
+    },
+    "footer-keys": {
+      "type": "MicroLabel",
+      "props": {
+        "text": "j k move · y go with the recommendation · u undo",
+        "tracking": "interactive",
+        "tone": "muted"
+      }
+    },
+    "hotkeys": {
+      "type": "Hotkeys",
+      "context": {
+        "list": "/questions",
+        "key": "id",
+        "at": "/cursorId"
+      },
+      "props": {
+        "keys": [
+          {
+            "key": "j"
+          },
+          {
+            "key": "k"
+          },
+          {
+            "key": "y",
+            "when": {
+              "$bind": "phase",
+              "eq": "open"
+            }
+          },
+          {
+            "key": "u",
+            "when": {
+              "$bind": "phase",
+              "eq": "answered"
+            }
+          }
+        ]
+      },
+      "on": {
+        "j": {
+          "advance": {
+            "list": "/questions",
+            "key": "id",
+            "cursor": "/cursorId",
+            "dir": "next"
+          }
+        },
+        "k": {
+          "advance": {
+            "list": "/questions",
+            "key": "id",
+            "cursor": "/cursorId",
+            "dir": "prev"
+          }
+        },
+        "y": [
+          {
+            "verb": "question.answer",
+            "params": {
+              "question_id": {
+                "$bind": "id"
+              },
+              "choice": "recommended",
+              "note": {
+                "$ui": "/draft"
+              }
+            },
+            "done": {
+              "ui": {
+                "/draft": ""
+              }
+            }
+          },
+          {
+            "advance": {
+              "list": "/questions",
+              "key": "id",
+              "cursor": "/cursorId",
+              "dir": "next",
+              "filter": {
+                "$bind": "phase",
+                "eq": "open"
+              }
+            }
+          }
+        ],
+        "u": {
+          "verb": "question.retract",
+          "params": {
+            "question_id": {
+              "$bind": "id"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "loupe": 1, "fabrial": "test/context-undeclared-at", "version": 1,
+  "catalog": { "name": "mini", "version": "1.2.3" },
+  "app": { "name": "mock", "projection": "review" },
+  "ui": { "cursorId": null },
+  "root": "screen",
+  "elements": {
+    "screen": { "type": "Stack", "children": ["t"] },
+    "t": { "type": "Text",
+      "context": { "list": "/findings", "key": "id", "at": "/missing" },
+      "props": { "text": { "$bind": "sev" } } }
+  }
+}

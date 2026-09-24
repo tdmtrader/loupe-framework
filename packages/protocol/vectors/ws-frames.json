@@ -1,0 +1,42 @@
+{
+  "client": [
+    { "t": "sub", "projection": "review", "params": { "ticketId": "PAY-2112" } },
+    { "t": "unsub", "projection": "review", "params": { "ticketId": "PAY-2112" } },
+    { "t": "sub", "projection": "board" },
+    { "t": "sub", "stream": "triage.jsonl" },
+    { "t": "unsub", "stream": "triage.jsonl" }
+  ],
+  "server": [
+    {
+      "t": "state",
+      "projection": "review",
+      "seq": 41,
+      "state": { "ticket": { "id": "PAY-2112" }, "triage": { "pendingCount": 3 } },
+      "params": { "ticketId": "PAY-2112" }
+    },
+    {
+      "t": "patch",
+      "projection": "review",
+      "seq": 42,
+      "patch": [{ "op": "replace", "path": "/triage/pendingCount", "value": 2 }],
+      "params": { "ticketId": "PAY-2112" }
+    },
+    { "t": "state", "projection": "board", "seq": 7, "state": { "lanes": [] } },
+    {
+      "t": "record",
+      "stream": "triage.jsonl",
+      "seq": 42,
+      "record": {
+        "findingId": "f1",
+        "decision": "kept",
+        "actor": "fixture",
+        "at": "2026-09-04T21:04:11Z"
+      }
+    }
+  ],
+  "rejected": [
+    { "t": "sub", "projection": "review", "stream": "triage.jsonl" },
+    { "t": "unsub", "projection": "review", "stream": "triage.jsonl" },
+    { "t": "sub" }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "@loupe/protocol",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./vectors/*.json": "./vectors/*.json"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "test": "vitest run --config ../../vitest.workspace.ts --project protocol"
+  },
+  "dependencies": {
+    "zod": "^4.1.5"
+  }
+}

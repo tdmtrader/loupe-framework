@@ -1,0 +1,10 @@
+{
+  "loupe": 1, "fabrial": "test/bad-props-missing-required", "version": 1,
+  "catalog": { "name": "mini", "version": "1.2.3" },
+  "app": { "name": "mock", "projection": "review" },
+  "root": "screen",
+  "elements": {
+    "screen": { "type": "Stack", "children": ["b"] },
+    "b": { "type": "Button", "props": { "variant": "primary" } }
+  }
+}

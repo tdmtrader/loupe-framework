@@ -1,0 +1,26 @@
+{
+  "name": "loupe-framework",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.28.2",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "check": "tsc -b packages/tokens packages/protocol packages/spec packages/client packages/serve packages/catalog packages/renderer apps/loupe-mcp apps/grill apps/host && eslint . && vitest run --config vitest.workspace.ts && node fabrials/validate.mjs",
+    "lint": "eslint .",
+    "test": "vitest run --config vitest.workspace.ts",
+    "demo:grill": "concurrently -k -n grill,host \"pnpm --filter loupe-grill dev\" \"pnpm --filter loupe-host dev\""
+  },
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "@vitejs/plugin-react": "^6.0.1",
+    "@vitest/browser-playwright": "^4.1.2",
+    "concurrently": "^9.2.1",
+    "eslint": "^9.39.4",
+    "playwright": "^1.58.2",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.57.0",
+    "vitest": "^4.1.2"
+  }
+}

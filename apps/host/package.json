@@ -1,0 +1,30 @@
+{
+  "name": "loupe-host",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -b",
+    "build:ui": "vite build --outDir dist-ui",
+    "dev": "concurrently -k \"vite\" \"tsx server.ts\"",
+    "test": "vitest run --config ../../vitest.workspace.ts --project host"
+  },
+  "dependencies": {
+    "@loupe/catalog": "workspace:*",
+    "@loupe/client": "workspace:*",
+    "@loupe/protocol": "workspace:*",
+    "@loupe/renderer": "workspace:*",
+    "@loupe/spec": "workspace:*",
+    "@loupe/tokens": "workspace:*",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@vitejs/plugin-react": "^6.0.1",
+    "concurrently": "^9.2.1",
+    "tsx": "^4.21.0",
+    "vite": "^8.0.1"
+  }
+}
